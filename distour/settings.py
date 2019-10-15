@@ -25,9 +25,9 @@ sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 SECRET_KEY = 'g6%+gwawl@j&weo)a=tatuw(n&^v^ay-06^+9@s&ii!)mer&b8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '.pythonanywhere.com']
 
 
 # Application definition
@@ -125,6 +125,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, "static"),
-    '/var/www/static/',
 )
 LOGIN_REDIRECT_URL = '/'

@@ -1,0 +1,27 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Open DisTour{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300" rel="stylesheet">
+    {% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tour_style.css' %}">
+    {% endblock %}
+    {% block js %}{% endblock %}
+</head>
+<body>
+<div class="main">
+    <div class="topcorner">
+        {% if user.is_authenticated %}
+        {{user.username}}/<a href="{% url 'logout' %}">logout</a>
+        {% else %}
+        <a href="{% url 'login' %}">login</a>/<a href="{% url 'sign_up' %}">sign_up</a>
+        {% endif %} 
+    </div>
+    {% block content %}{% endblock %}
+	
+</div>
+</body>
+</html>

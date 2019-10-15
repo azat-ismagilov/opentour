@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}List of tours{% endblock %}
+{% block content %}
+
+	<header>
+        <h1>Open Distours</h1>
+	    <h2>Beta version</h2>
+    </header>
+    <div class="contests">
+	    {% if contests %}
+	        {% for contest in contests %}
+	       		<div class="contest" id="tour_{{contest.id}}">
+		      		<div class="contest_date">
+		                {{contest.starting_time.date}}
+		            </div>
+		            <div class="contest_topic">
+		            	OpenTour #{{contest.id}}: {{contest.secretname}}
+		            </div>
+		            <div class="clear"></div>
+		            <div class="contest_name">
+	                Contest
+	                </div>
+	       			<div class="contest_link">
+	            		<a href="{% url 'contests:detail' contest.id %}">Join</a>
+	            	</div>
+	            	<div class="contest_link">
+	            		{% if contest.is_ended %}
+	            		<a href="{% url 'contests:results' contest.id %}">Results</a>
+	            		{% else %}
+	            		<div class=unavailable>Results</div>
+	            		{% endif %}	
+	            	</div>
+	            </div>
+	        {% endfor %}
+	    {% else %}
+	         No contest's (((
+		{% endif %}
+	</div>
+    
+{% endblock %}

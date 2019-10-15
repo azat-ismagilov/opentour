@@ -1,0 +1,48 @@
+{% extends 'base_without_sign_up.html' %}
+{% load staticfiles %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/standings.css' %}">
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+{% block title %}Tour #{{contest.id}}{% endblock %}
+
+{% block content %}
+
+
+<div class="wrapeper">
+<table id="standings">
+	<thead>
+		{% for header_row in header %}
+		<tr>
+			{% for header_cell in header_row %}
+				{{header_cell|safe}}
+			{% endfor %}
+		</tr>
+		{% endfor %}
+	</thead>
+	<tbody>
+		{% for header_row in header %}
+		<tr>
+			{% for header_cell in header_row %}
+				{{header_cell|safe}}
+			{% endfor %}
+		</tr>
+		{% endfor %}
+		{% for results_row in results %}
+		<tr>
+			{% for results_cell in results_row %}
+				{{results_cell|safe}}
+			{% endfor %}
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+</div>
+
+
+	
+{% endblock %}

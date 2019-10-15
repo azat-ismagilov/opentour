@@ -1,0 +1,18 @@
+{% extends 'base_without_sign_up.html' %}
+
+{% block title %}OpenTours{% endblock %}
+
+{% block content %}
+
+<header>
+	<h1>Open Distours</h1>
+	<h2>Beta version</h2>
+</header>
+
+<p>Logged out!</p>  
+
+<p><a href="{% url 'login'%}">Click here to login again.</a></p>
+
+<p><a href="{% url 'contests:index'%}">Go to main page.</a></p>
+    
+{% endblock %}

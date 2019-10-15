@@ -1,0 +1,6 @@
+{% extends 'contests/detail_unstarted.html' %}
+
+{% block start %}
+	<h3>You need to <a href="{% url 'login'%}">log in</a> or <a href="{% url 'sign_up'%}">sign up</a> in order to participate.</h3>
+{% endblock %}
+

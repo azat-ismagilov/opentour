@@ -1,0 +1,19 @@
+{% extends 'base_without_sign_up.html' %}
+
+{% block title %}OpenTours{% endblock %}
+
+{% block content %}
+
+<header>
+	<h1>Open Distours</h1>
+	<h2>Beta version</h2>
+</header>
+
+<h2>
+  To register, please send me your name and oj.uz login.
+  <a href="http://t.me/ismagilovcode">t.me/ismagilovcode</a>
+</h2>
+
+<a href="{% url 'login'%}">Click here to login.</a>
+    
+{% endblock %}

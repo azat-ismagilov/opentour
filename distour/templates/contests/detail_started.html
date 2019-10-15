@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}{{contest.name}}{% endblock %}
+
+{% block content %}
+
+<header>
+<h1>OpenTour #{{contest.id}}: {{contest.name}}</h1>		
+{% if participation.is_ended %}
+	<h2><a href="{% url 'contests:results' contest.id %}">Results</a></h2>
+{% endif %}
+</header>
+
+{% if participation.is_running %}
+	<h3>Remaining {{participation.untill_end}}</h3>
+{% endif %}
+{% if participation.is_ended %}
+	<h3>Upsolving.</h3>
+{% endif %}	
+
+
+<div class="problems">
+	{% for problem in problems %}
+		<div class="problem">
+		<a href="http://oj.uz/problem/view/{{problem.oj_id}}" target="_blank">{{problem.name}}</a>
+		</div>
+	{% endfor %}
+</div>
+    
+{% endblock %}

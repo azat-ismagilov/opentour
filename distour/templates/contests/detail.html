@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}{{contest.name}}{% endblock %}
+
+{% block content %}
+
+<header>
+<h1>OpenTour #{{contest.id}}: {{contest.secretname}}</h1>		
+{% if contest.is_running %}
+	<h2>Available untill {{contest.ending_time}}</h2>
+	{% block start %}
+
+	{% endblock %}	
+{% endif %}
+{% if not contest.is_started %}
+	<h2>Will be available at {{contest.starting_time}}</h2>
+{% endif %}
+{% if contest.is_ended %}
+	<h2>Contest is ended</h2>
+{% endif %}	
+</header>
+
+    
+{% endblock %}

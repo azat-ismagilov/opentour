@@ -1,0 +1,5 @@
+{% extends 'contests/detail_unstarted.html' %}
+
+{% block start %}
+	<h3><a href="{% url 'contests:start_vc' contest.id %}">Start virtual contest</a></h3>
+{% endblock %}

@@ -1,0 +1,100 @@
+.wrapper {
+    min-height: 100%;
+}
+
+.main {
+    width: 50em;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.topcorner{
+    position:absolute;
+    top:0;
+    right:10px;
+}
+
+header {
+    text-align: center;
+}
+
+.sidebar {
+    width: 15em;
+    float: right;
+    text-align: center;
+    position: relative;
+}
+
+.contest {
+    float: left;
+    width: 35em;
+}
+
+.photo {
+    width: 9em;
+    height: 9em;
+}
+
+
+.contests, .problems {
+    float: left;
+    width: 35em;
+}
+
+.problem {
+    margin-bottom: 1em;
+    border-left: 1px solid #487de5;
+    padding-left: 0.5em;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.contest {
+    margin-bottom: 1em;
+    border-left: 1px solid #487de5;
+    padding-left: 0.5em;
+}
+
+.contest_date {
+    display: inline-block;
+    margin-right: 1em;
+}
+
+.contest_topic {
+    display: inline-block;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+.contest_name {
+    width: 15em;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.contest_link {
+    margin-right: 1em;
+    display: inline-block;
+}
+
+
+.unavailable {
+    color: #A9A9A9;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+a {
+    color: #2a6478;
+    text-decoration: none;
+    transition: 300ms;
+    border-bottom: 1px solid transparent;
+}
+
+
+a:hover {
+    border-bottom: 1px solid #2a6478;
+}
+

@@ -1,10 +1,41 @@
+from django.conf import settings
+import requests
+import datetime
+from pytz import timezone
+from bs4 import BeautifulSoup
+import pytz
+
 from .models import Contest,Problem,Participation
+
+oj_url = 'https://oj.uz/submissions?handle={0}&problem={1}&page={2}'
 
 template_row = '<td class="{0}" title="{1}" rowspan="{2}" colspan="{3}" style="min-width: {4}px;{6}">{5}</td>'
 template_row_header = '<td class="{0}" title="{1}" rowspan="{2}" colspan="{3}" style="min-width: {4}px;">{5}</td>'
 
 def get_points(participation, problem):
-    return 100
+
+    max_points=0
+    for page in range(1, 100):
+        url = oj_url.format(participation.user.username, problem.oj_id ,page)
+        soup = BeautifulSoup(requests.get(url).text,features="lxml")
+        
+        submissions_list=soup.find('div', {'class':'table-responsive'}).find('tbody')
+        
+        submissions=submissions_list.find_all('tr')
+
+        if not submissions:
+            break
+
+        for submission in submissions:
+            points_str=submission.find('div', {'class':'text'}).text
+            if points_str == 'Compilation error':
+                continue
+            points=int(points_str[:-6])
+            time_str=submission.find('span', {'class':'render-datetime'}).text
+            time=pytz.utc.localize(datetime.datetime.strptime(time_str,'%Y-%m-%dT%H:%M:%S Z'))
+            if participation.starting_time <= time and time <= participation.ending_time:
+                max_points=max(max_points, points)
+    return max_points
 
 def get_color(points):
     return "background-color: rgb(144, 238, 144); "

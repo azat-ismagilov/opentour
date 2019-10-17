@@ -3,6 +3,7 @@ import requests
 import datetime
 from pytz import timezone
 from bs4 import BeautifulSoup
+import math
 import pytz
 
 from .models import Contest,Problem,Participation
@@ -13,11 +14,10 @@ template_row = '<td class="{0}" title="{1}" rowspan="{2}" colspan="{3}" style="m
 template_row_header = '<td class="{0}" title="{1}" rowspan="{2}" colspan="{3}" style="min-width: {4}px;">{5}</td>'
 
 def get_points(participation, problem):
-
     max_points=0
     for page in range(1, 100):
         url = oj_url.format(participation.user.username, problem.oj_id ,page)
-        soup = BeautifulSoup(requests.get(url).text,features="lxml")
+        soup = BeautifulSoup(requests.get(url).text)
         
         submissions_list=soup.find('div', {'class':'table-responsive'}).find('tbody')
         
@@ -38,7 +38,10 @@ def get_points(participation, problem):
     return max_points
 
 def get_color(points):
-    return "background-color: rgb(144, 238, 144); "
+    red = 240 + (144 - 240) * math.sqrt(points / 100);
+    green = 128 + (238 - 128) * math.sqrt(points / 100);
+    blue = 128 + (144 - 128) * math.sqrt(points / 100);
+    return "background-color: rgb({}, {}, {}); ".format(red, green, blue)
 
 def get_results(contest, problems, participations):
     results_tosort = []
@@ -50,9 +53,9 @@ def get_results(contest, problems, participations):
             sum_points += point 
             points.append(point)
         results_row = []
-        results_row.append(template_row.format("", "", 2, 1, 50, {},""))
-        results_row.append(template_row.format("", "", 2, 1, 200, participation.user.first_name + " " + participation.user.last_name,""))
-        results_row.append(template_row.format("", "", 2, 1, 50, sum_points,""))
+        results_row.append(template_row.format("", "", 1, 1, 50, {},""))
+        results_row.append(template_row.format("", "", 1, 1, 200, participation.user.first_name + " " + participation.user.last_name,""))
+        results_row.append(template_row.format("", "", 1, 1, 50, sum_points,""))
         for point,problem in zip(points,problems):
             results_row.append(template_row.format("gray", problem.name, 1, 1, 33, point, get_color(points=point)))
         results_row.append(template_row.format("gray", problem.name, 1, 1, 33, sum_points,""))

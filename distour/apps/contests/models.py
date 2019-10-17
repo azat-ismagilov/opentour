@@ -68,6 +68,10 @@ class Participation(models.Model):
     def untill_end(self):
         return format_delta(self.ending_time - timezone.now())
 
+    def js_ending_time(self):
+        return self.ending_time.strftime('%Y-%m-%dT%H:%M:%SZ')
+
+
 
 
 

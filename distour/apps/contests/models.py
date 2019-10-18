@@ -37,15 +37,15 @@ class Problem(models.Model):
 
     oj_id = models.CharField(max_length=100, help_text="Enter a oj.uz problem id (e.g. IOI19_shoes)")
 
-    contest = models.ForeignKey(Contest, on_delete=models.SET_NULL, null=True)
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.oj_id
 
 class Participation(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    contest = models.ForeignKey(Contest, on_delete=models.SET_NULL, null=True)
+    contest = models.ForeignKey(Contest, on_delete=models.CASCADE)
 
     starting_time = models.DateTimeField(default=timezone.now)
     ending_time = models.DateTimeField(default=timezone.now)
@@ -67,6 +67,15 @@ class Participation(models.Model):
 
     def untill_end(self):
         return format_delta(self.ending_time - timezone.now())
+
+class Point(models.Model):
+    participation = models.ForeignKey(Participation, on_delete=models.CASCADE)
+
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
+
+    points = models.DecimalField(max_digits = 9, decimal_places = 2)
+
+    last_checked = models.DateTimeField(default=timezone.now)
 
 
 

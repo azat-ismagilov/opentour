@@ -68,7 +68,9 @@ class Participation(models.Model):
     def untill_end(self):
         return format_delta(self.ending_time - timezone.now())
 
-<<<<<<< HEAD
+    def js_ending_time(self):
+        return self.ending_time.strftime('%Y-%m-%dT%H:%M:%SZ')
+
 class Point(models.Model):
     participation = models.ForeignKey(Participation, on_delete=models.CASCADE)
 
@@ -77,12 +79,8 @@ class Point(models.Model):
     points = models.DecimalField(max_digits = 9, decimal_places = 2)
 
     last_checked = models.DateTimeField(default=timezone.now)
-=======
-    def js_ending_time(self):
-        return self.ending_time.strftime('%Y-%m-%dT%H:%M:%SZ')
 
->>>>>>> 47eb6d896daac934ee592c94105a8ffab5d43f62
-
-
+    def is_expired(self):
+        return self.last_checked < self.participation.ending_time and self.last_checked + datetime.timedelta(minutes=1) < timezone.now()
 
 

@@ -1,19 +1,20 @@
 from django.conf import settings
 import requests
 import datetime
-from pytz import timezone
+from django.utils import timezone
 from bs4 import BeautifulSoup
 import math
 import pytz
+from decimal import Decimal
 
-from .models import Contest,Problem,Participation
+from .models import Contest,Problem,Participation,Point
 
 oj_url = 'https://oj.uz/submissions?handle={0}&problem={1}&page={2}'
 
 template_row = '<td class="{0}" title="{1}" rowspan="{2}" colspan="{3}" style="min-width: {4}px;{6}">{5}</td>'
 template_row_header = '<td class="{0}" title="{1}" rowspan="{2}" colspan="{3}" style="min-width: {4}px;">{5}</td>'
 
-def get_points(participation, problem):
+def parse_points(participation, problem):
     max_points=0
     for page in range(1, 100):
         url = oj_url.format(participation.user.username, problem.oj_id ,page)
@@ -30,12 +31,23 @@ def get_points(participation, problem):
             points_str=submission.find('div', {'class':'text'}).text
             if points_str == 'Compilation error':
                 continue
-            points=int(points_str[:-6])
+            points=Decimal(points_str.split('/')[0])
             time_str=submission.find('span', {'class':'render-datetime'}).text
             time=pytz.utc.localize(datetime.datetime.strptime(time_str,'%Y-%m-%dT%H:%M:%S Z'))
             if participation.starting_time <= time and time <= participation.ending_time:
                 max_points=max(max_points, points)
     return max_points
+
+def get_points(participation, problem):
+    try:
+        point = Point.objects.get(participation=participation, problem=problem)
+    except: 
+        point = Point.objects.create(participation=participation, problem=problem, points=parse_points(participation=participation,problem=problem))
+    if point.is_expired():
+        point.points=parse_points(participation=participation,problem=problem)
+        point.last_checked=timezone.now()
+        point.save()
+    return int(point.points)
 
 def get_color(points):
     red = 240 + (144 - 240) * math.sqrt(points / 100);
